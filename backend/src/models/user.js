@@ -41,5 +41,6 @@ module.exports = (sequelize, DataTypes) => {
       plural: "users"
     }
   });
+
   return User;
 };

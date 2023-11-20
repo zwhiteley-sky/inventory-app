@@ -4,7 +4,7 @@ const {
   Model
 } = require("sequelize");
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize,) => {
   class Order extends Model {
     /**
      * Helper method for defining associations.
@@ -17,9 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
-  Order.init({
- 
-  }, {
+  Order.init({}, {
     sequelize,
     modelName: "Order",
     name: {

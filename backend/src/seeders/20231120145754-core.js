@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up (queryInterface,) {
     await queryInterface.bulkInsert("Users", [
       {
         id: 1,
@@ -69,16 +69,16 @@ module.exports = {
         id: 5,
         name: "Apple® iPhone® 10® S®",
         description: "Like a phone, but Apple®",
-        categoryId: 3,
+        categoryId: 2,
         price: 257,
-        quanity: 14
+        quantity: 14
       }
     ]);
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Products', null, {});
-    await queryInterface.bulkDelete('Categories', null, {});
-    await queryInterface.bulkDelete('Users', null, {});
+  async down (queryInterface,) {
+    await queryInterface.bulkDelete("Products", null, {});
+    await queryInterface.bulkDelete("Categories", null, {});
+    await queryInterface.bulkDelete("Users", null, {});
   }
 };
