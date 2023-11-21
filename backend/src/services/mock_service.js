@@ -112,6 +112,7 @@ class TestCategoryService {
   }
 }
 
+// Export the database service classes
 module.exports = {
   TestUserService,
   TestCategoryService,
