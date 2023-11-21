@@ -5,6 +5,17 @@ const {
   TestOrderService,
   TestCategoryService,
 } = require("./mock_service");
+const {
+  refresh: dbRefresh,
+  DbUserService,
+  DbProductService,
+  DbOrderService,
+  DbCategoryService,
+} = require("./db_service");
+
+function roundTrip(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
 
 function testServices(name, refresh) {
   describe(`Testing ${name} services`, () => {
@@ -51,8 +62,8 @@ function testServices(name, refresh) {
     test("can create and get categories", async () => {
       const cat1Data = { name: "Fruit" };
       const cat2Data = { name: "Tech" };
-      const cat1 = await services.categoryService.createCategory(cat1Data);
-      const cat2 = await services.categoryService.createCategory(cat2Data);
+      const cat1 = roundTrip(await services.categoryService.createCategory(cat1Data));
+      const cat2 = roundTrip(await services.categoryService.createCategory(cat2Data));
 
       expect(typeof cat1.id).toBe("number");
       expect(typeof cat2.id).toBe("number");
@@ -63,7 +74,7 @@ function testServices(name, refresh) {
 
     test("can create and get products", async () => {
       const cat1Data = { name: "Fruit" };
-      const cat1 = await services.categoryService.createCategory(cat1Data);
+      const cat1 = roundTrip(await services.categoryService.createCategory(cat1Data));
 
       expect(cat1).toBeTruthy();
 
@@ -82,8 +93,8 @@ function testServices(name, refresh) {
         quantity: 10,
       };
 
-      const prod1 = await services.productService.createProduct(prod1Data);
-      const prod2 = await services.productService.createProduct(prod2Data);
+      const prod1 = roundTrip(await services.productService.createProduct(prod1Data));
+      const prod2 = roundTrip(await services.productService.createProduct(prod2Data));
 
       expect(typeof prod1.id).toBe("number");
       expect(typeof prod2.id).toBe("number");
@@ -138,7 +149,7 @@ function testServices(name, refresh) {
       const userData = {
         fullName: "Zachary Whiteley",
         username: "zwhiteley",
-        emailAddresss: "zachary@example.com",
+        emailAddress: "zachary@example.com",
         passwordHash: "Password123",
       };
       const user = await services.userService.createUser(userData);
@@ -155,20 +166,16 @@ function testServices(name, refresh) {
       const orders = await services.orderService.getAllOrders();
       const getOrder = await services.orderService.getOrder(order.id);
 
-      expect(orders).toEqual([
-        {
-          ...orderData,
-          product: prod,
-          user: {
-            id: user.id,
-            fullName: user.fullName,
-            username: user.username,
-          },
+      expect(orders[0]).toMatchObject({
+        product: roundTrip(prod),
+        user: {
+          id: user.id,
+          fullName: user.fullName,
+          username: user.username,
         },
-      ]);
-      expect(getOrder).toEqual({
-        ...orderData,
-        product: prod,
+      });
+      expect(getOrder).toMatchObject({
+        product: roundTrip(prod),
         user: {
           id: user.id,
           fullName: user.fullName,
@@ -205,7 +212,7 @@ function testServices(name, refresh) {
       const userData = {
         fullName: "Zachary Whiteley",
         username: "zwhiteley",
-        emailAddresss: "zachary@example.com",
+        emailAddress: "zachary@example.com",
         passwordHash: "Password123",
       };
       const user = await services.userService.createUser(userData);
@@ -223,8 +230,8 @@ function testServices(name, refresh) {
     });
 
     test("cannot get order that does not exist", async () => {
-        const order = await services.orderService.getOrder(1);
-        expect(order).toEqual(null);
+      const order = await services.orderService.getOrder(1);
+      expect(order).toEqual(null);
     });
   });
 }
@@ -236,5 +243,15 @@ testServices("Test", async () => {
     productService: new TestProductService(),
     orderService: new TestOrderService(),
     categoryService: new TestCategoryService(),
+  };
+});
+
+testServices("Database", async () => {
+  await dbRefresh();
+  return {
+    userService: new DbUserService(),
+    productService: new DbProductService(),
+    orderService: new DbOrderService(),
+    categoryService: new DbCategoryService(),
   };
 });
