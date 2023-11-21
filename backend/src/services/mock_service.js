@@ -52,9 +52,9 @@ class TestProductService {
   }
 
   async updateProduct(id, product) {
-    const product = memory.products[id];
+    const currentProduct = memory.products[id];
 
-    if (product === undefined) {
+    if (currentProduct === undefined) {
       return "product-not-exists";
     }
     if (memory.categories[product.categoryId]) {
@@ -71,6 +71,43 @@ class TestProductService {
   }
 }
 
-class TestOrderService {}
+class TestOrderService {
 
-class TestCategoryService {}
+  async getAllOrders() {
+    return memory.orders
+      .filter((order) => order !== undefined)
+      .map((order) => {
+        return {
+          ...order,
+          product: memory.products[order.productId],
+          user: {id: memory.users[order.userId].id,
+            username: memory.users[order.userId].username,
+            fullName: memory.users[order.userId].fullName
+          }};
+      });
+  }
+  
+  async getOrder(id) {
+    const order = memory.orders[id];
+
+    if (order === undefined) return null;
+
+    return {
+      ...order,
+      product: memory.products[order.productId],
+      user: {id: memory.users[order.userId].id,
+        username: memory.users[order.userId].username,
+        fullName: memory.users[order.userId].fullName
+      }};
+  }
+}
+
+
+class TestCategoryService {
+  async getAllCategories(){
+    const categories = memory.categories; 
+    return categories;
+  }
+}
+
+module.exports = (TestUserService, TestCategoryService, TestOrderService, TestProductService);
