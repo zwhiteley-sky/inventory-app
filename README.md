@@ -1,4 +1,4 @@
-![logo](https://postimg.cc/PN4p8K8k)
+![logo](https://i.postimg.cc/Nfh1SzsL/temp-Imagefu-MFB7.jpg)
 
 # Inventory App 
 
