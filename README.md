@@ -1,4 +1,4 @@
-![logo]https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.vision33.co.uk%2F10-questions-to-consider-when-assessing-inventory-control&psig=AOvVaw30t2vRIkuL04TlpWsVstTg&ust=1700660368482000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOiQp92b1YIDFQAAAAAdAAAAABAF
+![logo](https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.vision33.co.uk%2F10-questions-to-consider-when-assessing-inventory-control&psig=AOvVaw30t2vRIkuL04TlpWsVstTg&ust=1700660368482000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOiQp92b1YIDFQAAAAAdAAAAABAF)
 
 # Inventory App 
 
