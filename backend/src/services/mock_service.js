@@ -72,7 +72,6 @@ class TestProductService {
 }
 
 class TestOrderService {
-
   async getAllOrders() {
     return memory.orders
       .filter((order) => order !== undefined)
@@ -80,13 +79,15 @@ class TestOrderService {
         return {
           ...order,
           product: memory.products[order.productId],
-          user: {id: memory.users[order.userId].id,
+          user: {
+            id: memory.users[order.userId].id,
             username: memory.users[order.userId].username,
-            fullName: memory.users[order.userId].fullName
-          }};
+            fullName: memory.users[order.userId].fullName,
+          },
+        };
       });
   }
-  
+
   async getOrder(id) {
     const order = memory.orders[id];
 
@@ -95,24 +96,25 @@ class TestOrderService {
     return {
       ...order,
       product: memory.products[order.productId],
-      user: {id: memory.users[order.userId].id,
+      user: {
+        id: memory.users[order.userId].id,
         username: memory.users[order.userId].username,
-        fullName: memory.users[order.userId].fullName
-      }};
+        fullName: memory.users[order.userId].fullName,
+      },
+    };
   }
 }
 
-
 class TestCategoryService {
-  async getAllCategories(){
-    const categories = memory.categories; 
+  async getAllCategories() {
+    const categories = memory.categories;
     return categories;
   }
 }
 
 module.exports = {
-    TestUserService, 
-    TestCategoryService, 
-    TestOrderService, 
-    TestProductService
+  TestUserService,
+  TestCategoryService,
+  TestOrderService,
+  TestProductService,
 };
