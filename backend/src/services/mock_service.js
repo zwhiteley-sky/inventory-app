@@ -110,4 +110,9 @@ class TestCategoryService {
   }
 }
 
-module.exports = (TestUserService, TestCategoryService, TestOrderService, TestProductService);
+module.exports = {
+    TestUserService, 
+    TestCategoryService, 
+    TestOrderService, 
+    TestProductService
+};
