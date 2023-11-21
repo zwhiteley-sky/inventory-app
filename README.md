@@ -1,4 +1,4 @@
-![logo](file:///Users/gboyegaidowu/Desktop/Screenshot%202023-11-21%20at%2015.45.04.png)
+![logo](https://postimg.cc/PN4p8K8k)
 
 # Inventory App 
 
