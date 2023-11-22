@@ -14,6 +14,7 @@ if (process.env.NODE_ENV === "test") {
   sequelize = new Sequelize({
     storage: `${__dirname}/../../database/db.sqlite`,
     dialect: "sqlite",
+    logging: false,
     define: {
       timestamps: false
     }

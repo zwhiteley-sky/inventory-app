@@ -1,3 +1,5 @@
+const { notFoundError } = require("./base");
+
 let memory = {
   users: [],
   categories: [],
@@ -6,32 +8,39 @@ let memory = {
 };
 
 async function refresh() {
-    memory = {
-        users: [],
-        categories: [],
-        products: [],
-        orders: []
-    };
+  memory = {
+    users: [],
+    categories: [],
+    products: [],
+    orders: [],
+  };
 }
 
-class TestUserService {
-  async getAllUsers() {
+class TestUserRepo {
+  async getAll() {
     return memory.users;
   }
 
-  async getUser(id) {
+  async get(id) {
     return memory.users[id] ?? null;
   }
 
-  async createUser(user) {
+  async findByEmail(emailAddress) {
+    const user = memory.users.find(
+      (user) => user.emailAddress === emailAddress
+    );
+    return user ?? null;
+  }
+
+  async create(user) {
     user.id = memory.users.length;
     memory.users.push(user);
     return user;
   }
 }
 
-class TestProductService {
-  async getAllProducts() {
+class TestProductRepo {
+  async getAll() {
     return memory.products
       .filter((product) => product !== undefined)
       .map((product) => {
@@ -42,7 +51,7 @@ class TestProductService {
       });
   }
 
-  async getProduct(id) {
+  async get(id) {
     const product = memory.products[id];
 
     if (product === undefined) return null;
@@ -53,37 +62,40 @@ class TestProductService {
     };
   }
 
-  async createProduct(product) {
+  async create(product) {
     // Check category exists
-    if (!memory.categories[product.categoryId]) return null;
+    if (!memory.categories[product.categoryId])
+      return notFoundError("category");
 
     product.id = memory.products.length;
     memory.products.push(product);
     return product;
   }
 
-  async updateProduct(id, product) {
+  async update(id, product) {
     const currentProduct = memory.products[id];
 
     if (currentProduct === undefined) {
-      return "product-not-exists";
+      return notFoundError("product");
     }
-    if (memory.categories[product.categoryId]) {
-      return "category-not-exists";
+    if (!memory.categories[product.categoryId]) {
+      return notFoundError("category");
     }
 
+    product.id = id;
     memory.products[id] = product;
+    return product;
   }
 
-  async deleteProduct(id) {
-    if (memory.products[id] === undefined) return false;
+  async delete(id) {
+    if (memory.products[id] === undefined) return notFoundError("product");
     memory.products[id] = undefined;
-    return true;
+    return null;
   }
 }
 
-class TestOrderService {
-  async getAllOrders() {
+class TestOrderRepo {
+  async getAll() {
     return memory.orders
       .filter((order) => order !== undefined)
       .map((order) => {
@@ -99,7 +111,7 @@ class TestOrderService {
       });
   }
 
-  async getOrder(id) {
+  async get(id) {
     const order = memory.orders[id];
 
     if (order === undefined) return null;
@@ -115,10 +127,10 @@ class TestOrderService {
     };
   }
 
-  async createOrder(order) {
+  async create(order) {
     // Error checking
-    if (!memory.users[order.userId]) return "user-not-exists";
-    if (!memory.products[order.productId]) return "product-not-exists";
+    if (!memory.users[order.userId]) return notFoundError("user");
+    if (!memory.products[order.productId]) return notFoundError("product");
 
     order.id = memory.orders.length;
     memory.orders.push(order);
@@ -126,13 +138,13 @@ class TestOrderService {
   }
 }
 
-class TestCategoryService {
-  async getAllCategories() {
+class TestCategoryRepo {
+  async getAll() {
     const categories = memory.categories;
     return categories;
   }
 
-  async createCategory(category) {
+  async create(category) {
     category.id = memory.categories.length;
     memory.categories.push(category);
     return category;
@@ -141,9 +153,9 @@ class TestCategoryService {
 
 // Export the database service classes
 module.exports = {
-  TestUserService,
-  TestCategoryService,
-  TestOrderService,
-  TestProductService,
-  refresh: process.env.NODE_ENV === "test" ? refresh : undefined
+  UserRepo: TestUserRepo,
+  CategoryRepo: TestCategoryRepo,
+  OrderRepo: TestOrderRepo,
+  ProductRepo: TestProductRepo,
+  refresh: process.env.NODE_ENV === "test" ? refresh : undefined,
 };
