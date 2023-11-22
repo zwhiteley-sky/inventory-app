@@ -6,7 +6,7 @@ function App() {
   return (
     <main>
       <Header />
-      <input type="text" />
+      <input placeholder="search for useless items here" class="card-search" type="text" />
       <div className="card-container">
         <Card />
         <Card />

@@ -70,6 +70,11 @@
     cursor: pointer;
 }
 
+.card-icons {
+    display: flex;
+    gap: 10px;
+}
+
 .card-quantity {
     color: #FFF;
     font-family: 'Lexend', sans-serif;
