@@ -185,5 +185,5 @@ module.exports = {
   ProductRepo: DbProductRepo,
   OrderRepo: DbOrderRepo,
   CategoryRepo: DbCategoryRepo,
-  refresh,
+  "refresh": process.env.NODE_ENV === "test" ? refresh : undefined,
 };
