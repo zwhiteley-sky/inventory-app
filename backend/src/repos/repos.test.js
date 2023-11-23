@@ -5,7 +5,7 @@ const DbRepos = require("./db_repos");
 // crap sequelize attaches to its objects (to make
 // comparisons nice).
 function roundTrip(obj) {
-    return JSON.parse(JSON.stringify(obj));
+  return JSON.parse(JSON.stringify(obj));
 }
 
 /**
