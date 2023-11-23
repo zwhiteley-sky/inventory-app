@@ -1,5 +1,6 @@
 const express = require("express");
 const { authRouter } = require("./routes/auth");
+const { categoryRouter } = require("./routes/category");
 const { errorHandler } = require("./error");
 require("dotenv").config({
   path: `${__dirname}/../.env`,
@@ -14,6 +15,7 @@ function createApp(repos) {
   });
   app.use(express.json());
   app.use("/auth", authRouter);
+  app.use("/category", categoryRouter);
   app.use(errorHandler);
 
   return app;
