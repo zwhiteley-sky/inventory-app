@@ -2,13 +2,17 @@ import "./App.css";
 import Header from './components/Header/Header'
 import Card from './components/Card/Card.jsx'
 import Login from './components/Login/Login.jsx'
+
+
+
 import { useState } from "react";
+import { useAuth } from "./providers/authprovider";
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
+  const [auth, login, register, logout] = useAuth()
 
-  if(isLoggedIn) {
+  if(auth.state === 'logged-in') {
     return(
       <main>
         <Header />

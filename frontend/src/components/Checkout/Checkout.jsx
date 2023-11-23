@@ -16,7 +16,10 @@ function Checkout({toggleModal}) {
                     </div>
                     <div className={styles.content}>
                         <Item />
+                        <Item />
+                        <Item />
                     </div>
+                    <button class={styles.pay}>Pay £20</button>
                 </div>
 
             </div>

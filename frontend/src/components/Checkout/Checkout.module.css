@@ -5,10 +5,9 @@
     width: 100vw;
     height: 100vh;
     z-index: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
+    top: 0;
+    left: 0;
+    position: fixed;
 }
 
 .centre {
@@ -71,6 +70,10 @@
 
 .content {
     max-width: 100%;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .form {
@@ -124,6 +127,26 @@ label {
 
 }
 
+.pay {
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 2rem;
+    min-width: 100%;
+    padding: 15px;
+    background: transparent;
+    border-radius: 5px;
+    border: 2px solid #825D26;
+    color: #825D26;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.pay:hover {
+    cursor: pointer;
+    transition: 0.1s linear;
+    background-color: #825D26;
+    color: white;
+}
 
 
 

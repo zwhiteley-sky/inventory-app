@@ -1,17 +1,23 @@
 import styles from './Login.module.css'
 import box from '../../assets/box.svg'
 import { useState } from 'react'
+import { useAuth } from '../../providers/AuthProvider'
 
 function Login() {
 
     const [registerPage, setRegisterPage] = useState(false)
+    const [auth, login, register, logout] = useAuth()
 
-    function submitLogin(e) {
+    async function submitLogin(e) {
         e.preventDefault()
-        console.log('submitting login')
+        const formData = new FormData(e.currentTarget);
+        const emailAddress = formData.get("email-address");
+        const password = formData.get("password");
+        await login(emailAddress, password)
+        
     }
 
-    function submitRegister(e) {
+    async function submitRegister(e) {
         e.preventDefault()
         console.log('submitting register')
     }
@@ -36,11 +42,13 @@ function Login() {
                     </span>
                     
                     <form onSubmit={submitRegister} className={styles.form} action="">
+                        <label className={styles.label} htmlFor="">Full Name</label>
+                        <input className={styles.input} type="text" />
+                        <label className={styles.label} htmlFor="">Username</label>
+                        <input className={styles.input} type="text" />
                         <label className={styles.label} htmlFor="">Email Address</label>
                         <input className={styles.input} type="text" />
                         <label className={styles.label} htmlFor="">Password</label>
-                        <input className={styles.input} type="password" />
-                        <label className={styles.label} htmlFor="">Confirm Password</label>
                         <input className={styles.input} type="password" />
                         <button className={styles.btn}>Register</button>
                     </form>
@@ -68,9 +76,9 @@ function Login() {
                     
                     <form onSubmit={submitLogin} className={styles.form} action="">
                         <label className={styles.label} htmlFor="">Email Address</label>
-                        <input className={styles.input} type="text" />
+                        <input name="email-address" className={styles.input} type="text" />
                         <label className={styles.label} htmlFor="">Password</label>
-                        <input className={styles.input} type="password" />
+                        <input name="password" className={styles.input} type="password" />
                         <button className={styles.btn}>Login</button>
                     </form>
                 </div>
