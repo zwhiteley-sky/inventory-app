@@ -6,6 +6,31 @@ const jsonwebtoken = require("jsonwebtoken");
 const { AuthError } = require("../error");
 const authRouter = express.Router();
 
+/**
+ * The authentication handler (verifies tokens).
+ * @param {import('express').Request} req - The request.
+ * @param {import('express').Response} res - The response.
+ * @param {import('express').NextFunction} next - The middleware.
+ */
+function authHandler(req, _, next) {
+  const BEARER = "bearer ";
+  const authHeader = req.headers["authorization"];
+  const jwtKey = Buffer.from(process.env.JWT_KEY, "base64");
+  let jwt;
+
+  if (!authHeader) return next();
+  if (authHeader.toLowerCase().startsWith(BEARER)) {
+    jwt = authHeader.slice(BEARER.length);
+  }
+
+  try {
+    const payload = jsonwebtoken.verify(jwt, jwtKey);
+    req.user = payload;
+  } catch (e) {}
+
+  return next();
+}
+
 authRouter.post(
   "/login",
   validate([
@@ -33,19 +58,19 @@ authRouter.post(
       return next(new AuthError());
     }
 
-    const jwt_key = Buffer.from(process.env.JWT_KEY, "base64");
-    const jwt_payload = {
+    const jwtKey = Buffer.from(process.env.JWT_KEY, "base64");
+    const jwtPayload = {
       id: user.id,
       username: user.username,
       fullName: user.fullName,
       email: user.email,
     };
-    const jwt = jsonwebtoken.sign(jwt_payload, jwt_key, {
+    const jwt = jsonwebtoken.sign(jwtPayload, jwtKey, {
       expiresIn: "24h",
     });
 
     res.status(200).json({
-      ...jwt_payload,
+      ...jwtPayload,
       token: jwt,
     });
   }
@@ -89,4 +114,4 @@ authRouter.post(
   }
 );
 
-module.exports = { authRouter };
+module.exports = { authHandler, authRouter };

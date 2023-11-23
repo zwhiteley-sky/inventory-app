@@ -1,5 +1,5 @@
 const express = require("express");
-const { authRouter } = require("./routes/auth");
+const { authRouter, authHandler } = require("./routes/auth");
 const { categoryRouter } = require("./routes/category");
 const { errorHandler } = require("./error");
 const { productRouter } = require("./routes/product");
@@ -15,6 +15,7 @@ function createApp(repos) {
     next();
   });
   app.use(express.json());
+  app.use(authHandler);
   app.use("/auth", authRouter);
   app.use("/category", categoryRouter);
   app.use("/product", productRouter);
