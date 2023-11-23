@@ -7,7 +7,7 @@ const {
   Category,
 } = require("../models");
 const { ForeignKeyConstraintError } = require("sequelize");
-const { notFoundError } = require("./base");
+const { notFoundError, noneLeft } = require("./base");
 
 if (process.env.NODE_ENV === "test") {
   const { Umzug, SequelizeStorage } = require("umzug");
@@ -147,19 +147,26 @@ class DbOrderRepo {
   }
 
   async create(order) {
+    const transaction = await sequelize.transaction();
+
     try {
+      const product = await Product.findByPk(order.productId);
+
+      if (!product) return notFoundError("product");
+      if (product.quantity <= 0) return noneLeft();
+
+      await product.update({
+        quantity: product.quantity - 1
+      });
       const newOrder = await Order.create(order);
       return newOrder;
     } catch (e) {
+      await transaction.rollback();
+
       // If one of the foriegn keys is invalid
       if (e instanceof ForeignKeyConstraintError) {
-        // Check if the product exists
-        if (!(await Product.findByPk(order.productId)))
-          return notFoundError("product");
-        
-        // If the product exists, the only other FK is
-        // the `userId`, meaning the user does not exist
-        else return notFoundError("user");
+        // We have alreayd checked to ensure 
+        return notFoundError("user");
       }
 
       throw e;

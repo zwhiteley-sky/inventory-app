@@ -10,7 +10,13 @@ const ERROR_CODES = {
    * indicate a primary key is incorrect) and foreign keys (e.g.,
    * if a foreign key is invalid).
    */
-  NOT_FOUND: 0
+  NOT_FOUND: 0,
+
+  /**
+   * There are no products left in storage (and the order request can therefore
+   * not be fulfilled).
+   */
+  NONE_LEFT: 1
 };
 
 function notFoundError(model) {
@@ -21,6 +27,13 @@ function notFoundError(model) {
     // The name of the table which caused the issue (e.g.,
     // if the foreign key is invalid)
     errorModel: model
+  }
+}
+
+function noneLeft() {
+  return {
+    type: "error",
+    errorCode: ERROR_CODES.NONE_LEFT
   }
 }
 
@@ -39,6 +52,7 @@ class BaseUserRepo {
    *  username: string,
    *  fullName: string,
    *  emailAddress: string,
+   *  role: "user" | "admin",
    *  passwordHash: string
    * }[]} The users.
    */
@@ -55,6 +69,7 @@ class BaseUserRepo {
    *  username: string,
    *  fullName: string,
    *  emailAddress: string,
+   *  role: "user" | "admin",
    *  passwordHash: string
    * } | null} The user (or null if they do not exist).
    */
@@ -71,6 +86,7 @@ class BaseUserRepo {
    *  username: string,
    *  fullName: string,
    *  emailAddress: string,
+   *  role: "user" | "admin",
    *  passwordHash: string
    * } | null} The user (or null if they do not exist).
    */
@@ -84,6 +100,7 @@ class BaseUserRepo {
    *  username: string,
    *  fullName: string,
    *  emailAddress: string,
+   *  role: "user" | "admin",
    *  passwordHash: string
    * }} - The user's information.
    * @returns {{
@@ -91,6 +108,7 @@ class BaseUserRepo {
    *  username: string,
    *  fullName: string,
    *  emailAddress: string,
+   *  role: "user" | "admin",
    *  passwordHash: string
    * } | null} The new user (or null if the user does not exist).
    */
@@ -309,6 +327,9 @@ class BaseOrderRepo {
    *  type: "error",
    *  errorCode: 0,
    *  errorModel: string
+   * } | {
+   *  type: "error",
+   *  errorCode: 1
    * }} The newly created order (or an error, if one occurred).
    */
   async create(order) {
@@ -317,5 +338,6 @@ class BaseOrderRepo {
 }
 
 module.exports = {
-  notFoundError
+  notFoundError,
+  noneLeft
 };

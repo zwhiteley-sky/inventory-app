@@ -63,7 +63,8 @@ authRouter.post(
       id: user.id,
       username: user.username,
       fullName: user.fullName,
-      email: user.email,
+      emailAddress: user.emailAddress,
+      role: user.role
     };
     const jwt = jsonwebtoken.sign(jwtPayload, jwtKey, {
       expiresIn: "24h",
@@ -107,6 +108,7 @@ authRouter.post(
       username,
       fullName,
       emailAddress,
+      role: "user",
       passwordHash,
     });
 

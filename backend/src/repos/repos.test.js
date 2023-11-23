@@ -26,12 +26,14 @@ function testRepos(name, refresh) {
         fullName: "Zachary Whiteley",
         username: "zwhiteley",
         emailAddress: "zachary@example.com",
+        role: "user",
         passwordHash: "Password123",
       };
       const user2Data = {
         fullName: "Josh Pickard",
         username: "joshpickardme",
         emailAddress: "josh@example.com",
+        role: "user",
         passwordHash: "Password123",
       };
 
@@ -55,12 +57,14 @@ function testRepos(name, refresh) {
         fullName: "Zachary Whiteley",
         username: "zwhiteley",
         emailAddress: "zachary@example.com",
+        role: "user",
         passwordHash: "Password123",
       };
       const user2Data = {
         fullName: "Josh Pickard",
         username: "joshpickardme",
         emailAddress: "josh@example.com",
+        role: "user",
         passwordHash: "Password123",
       };
 
@@ -354,6 +358,7 @@ function testRepos(name, refresh) {
         fullName: "Zachary Whiteley",
         username: "zwhiteley",
         emailAddress: "zachary@example.com",
+        role: "user",
         passwordHash: "Password123",
       };
       const user = await services.userRepo.create(userData);
@@ -421,6 +426,7 @@ function testRepos(name, refresh) {
         fullName: "Zachary Whiteley",
         username: "zwhiteley",
         emailAddress: "zachary@example.com",
+        role: "user",
         passwordHash: "Password123",
       };
       const user = await services.userRepo.create(userData);

@@ -9,6 +9,7 @@ module.exports = {
         fullName: "Zachary Whiteley",
         username: "zwhiteley",
         emailAddress: "zachary.whiteley@sky.uk",
+        role: "user",
         passwordHash: "$2a$12$B3e78rY64x.GO94hCwgYA.d/eBq5GBe7NdyJ9Rzo6NHi2vXWTzuBW"
       },
       {
@@ -16,6 +17,7 @@ module.exports = {
         fullName: "Gboyega Idowu",
         username: "crux737",
         emailAddress: "gboyega.idowu@gmail.com",
+        role: "user",
         passwordHash: "$2a$12$B3e78rY64x.GO94hCwgYA.d/eBq5GBe7NdyJ9Rzo6NHi2vXWTzuBW"
       },
       {
@@ -23,6 +25,15 @@ module.exports = {
         fullName: "Josh Pickard",
         username: "joshpickardme",
         emailAddress: "generic-frontend-dev-filler-filler-filler@generic.com",
+        role: "user",
+        passwordHash: "$2a$12$B3e78rY64x.GO94hCwgYA.d/eBq5GBe7NdyJ9Rzo6NHi2vXWTzuBW"
+      },
+      {
+        id: 4,
+        fullName: "admin",
+        username: "admin",
+        emailAddress: "admin@admin.com",
+        role: "admin",
         passwordHash: "$2a$12$B3e78rY64x.GO94hCwgYA.d/eBq5GBe7NdyJ9Rzo6NHi2vXWTzuBW"
       }
     ]);

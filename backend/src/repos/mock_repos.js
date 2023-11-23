@@ -1,4 +1,4 @@
-const { notFoundError } = require("./base");
+const { notFoundError, noneLeft } = require("./base");
 
 let memory = {
   users: [],
@@ -131,6 +131,10 @@ class TestOrderRepo {
     // Error checking
     if (!memory.users[order.userId]) return notFoundError("user");
     if (!memory.products[order.productId]) return notFoundError("product");
+
+    // Check the product has sufficient quantity
+    if (memory.products[order.productId].quantity <= 0) return noneLeft();
+    --memory.products[order.productId].quantity;
 
     order.id = memory.orders.length;
     memory.orders.push(order);

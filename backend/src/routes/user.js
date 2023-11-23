@@ -1,11 +1,15 @@
 const express = require("express");
 const { validate } = require("../validate");
 const { param, matchedData } = require("express-validator");
-const { NotFoundError } = require("../error");
+const { NotFoundError, AuthError } = require("../error");
 const userRouter = express.Router();
 
-userRouter.get("/", async (req, res) => {
-  // TODO: add auth
+userRouter.get("/", async (req, res, next) => {
+  // Check authentication
+  if (!req.user || req.user.role !== "admin") {
+    return next(new AuthError());
+  }
+
   const { userRepo } = await req.repos;
   const users = await userRepo.getAll();
   return res.json(
@@ -24,7 +28,11 @@ userRouter.get(
   "/:id",
   validate([param("id").isInt().withMessage("id parameter must be an integer")]),
   async (req, res, next) => {
-    // TODO: add auth
+    // Check authentication
+    if (!req.user || req.user.role !== "admin") {
+      return next(new AuthError());
+    }
+
     const { userRepo } = req.repos;
     const { id } = matchedData(req);
 

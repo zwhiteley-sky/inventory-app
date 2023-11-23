@@ -1,8 +1,21 @@
 const express = require("express");
 const { validate } = require("../validate");
 const { body, matchedData, param } = require("express-validator");
-const { AuthError, ServerError, NotFoundError } = require("../error");
+const { AuthError, ServerError, NotFoundError, NoProductLeftError } = require("../error");
 const orderRouter = express.Router();
+
+orderRouter.get(
+  "/",
+  async (req, res, next) => {
+    if (!req.user || req.user.role !== "admin") {
+      return next(new AuthError());
+    }
+
+    const { userRepo } = req.repos;
+    const orders = await userRepo.getAll();
+    res.json(orders);
+  }
+)
 
 orderRouter.get(
   "/:id",
@@ -58,6 +71,10 @@ orderRouter.post(
 
     // If an error occurred
     if (result.type === "error") {
+      if (result.errorCode === 1) {
+        return next(new NoProductLeftError());
+      }
+
       // If a misc error occurred
       if (result.errorCode !== 0 || result.errorModel !== "product") {
         return next(new ServerError());
