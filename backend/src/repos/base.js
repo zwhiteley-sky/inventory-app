@@ -299,7 +299,7 @@ class BaseOrderRepo {
    * Create a new order.
    * @param {{
    *  userId: number,
-   *  orderId: number
+   *  productId: number
    * }} order - The order to create.
    * @returns {{
    *  id: number,
