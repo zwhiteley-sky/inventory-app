@@ -4,6 +4,7 @@ const { categoryRouter } = require("./routes/category");
 const { errorHandler } = require("./error");
 const { productRouter } = require("./routes/product");
 const { orderRouter } = require("./routes/order");
+const { userRouter } = require("./routes/user");
 require("dotenv").config({
   path: `${__dirname}/../.env`,
 });
@@ -21,6 +22,7 @@ function createApp(repos) {
   app.use("/category", categoryRouter);
   app.use("/product", productRouter);
   app.use("/order", orderRouter);
+  app.use("/user", userRouter);
   app.use(errorHandler);
 
 
