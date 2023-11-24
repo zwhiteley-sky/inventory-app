@@ -139,6 +139,7 @@ label {
     color: #825D26;
     font-weight: 500;
     font-size: 16px;
+    transition: 0.1s linear;
 }
 
 .pay:hover {
