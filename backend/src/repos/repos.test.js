@@ -376,7 +376,10 @@ function testRepos(name, refresh) {
       const getOrder = await services.orderRepo.get(order.id);
     
       expect(orders[0]).toMatchObject({
-        product: roundTrip(prod),
+        product: {
+          ...roundTrip(prod),
+          quantity: 9
+        },
         user: {
           id: user.id,
           fullName: user.fullName,
@@ -384,7 +387,10 @@ function testRepos(name, refresh) {
         },
       });
       expect(getOrder).toMatchObject({
-        product: roundTrip(prod),
+        product: {
+          ...roundTrip(prod),
+          quantity: 9
+        },
         user: {
           id: user.id,
           fullName: user.fullName,
