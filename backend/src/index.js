@@ -1,10 +1,20 @@
-const express = require("express");
-const app = express();
+const { createApp } = require("./app");
+const {
+  UserRepo,
+  ProductRepo,
+  CategoryRepo,
+  OrderRepo
+} = require("./repos/db_repos");
 
-app.get("*", (req, res) => {
-  res.status(200).send("Hello, World!");
-});
+const userRepo = new UserRepo();
+const productRepo = new ProductRepo();
+const categoryRepo = new CategoryRepo();
+const orderRepo = new OrderRepo();
 
-app.listen(4000, () => {
-  console.log("Listening on port 4000");
+const app = createApp({
+  userRepo,
+  productRepo,
+  categoryRepo,
+  orderRepo
 });
+app.listen(4000);
