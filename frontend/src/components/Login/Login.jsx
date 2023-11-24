@@ -20,6 +20,17 @@ function Login() {
     async function submitRegister(e) {
         e.preventDefault()
         console.log('submitting register')
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get("name")
+        const username = formData.get("username")
+        const email = formData.get("email")
+        const password = formData.get("password")
+        const result = await register(username, name, email, password)
+
+        if(result) {
+            setRegisterPage(false)
+        }
+
     }
 
     if(registerPage) { // Register Page
@@ -43,13 +54,13 @@ function Login() {
                     
                     <form onSubmit={submitRegister} className={styles.form} action="">
                         <label className={styles.label} htmlFor="">Full Name</label>
-                        <input className={styles.input} type="text" />
+                        <input className={styles.input} name="name" type="text" />
                         <label className={styles.label} htmlFor="">Username</label>
-                        <input className={styles.input} type="text" />
+                        <input className={styles.input} name="username" type="text" />
                         <label className={styles.label} htmlFor="">Email Address</label>
-                        <input className={styles.input} type="text" />
+                        <input className={styles.input} name="email" type="text" />
                         <label className={styles.label} htmlFor="">Password</label>
-                        <input className={styles.input} type="password" />
+                        <input className={styles.input} name="password" type="password" />
                         <button className={styles.btn}>Register</button>
                     </form>
                 </div>

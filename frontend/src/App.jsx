@@ -5,34 +5,38 @@ import Login from './components/Login/Login.jsx'
 
 
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "./providers/authprovider";
 
 function App() {
 
   const [auth, login, register, logout] = useAuth()
 
+  const [cards, setCards] = useState([])
+
+  const [search, setSearch] = useState("")
+
+  async function refresh() {
+    const response = await fetch('http://localhost:4000/product')
+    const body = await response.json()
+    setCards(body)
+  }
+
+  useEffect( () => {
+    refresh()
+  }, [])
+
   if(auth.state === 'logged-in') {
     return(
       <main>
-        <Header />
+        <Header onRefresh={refresh} />
         <div className="search-container">
-          <input placeholder="search for useless items here" className="card-search" type="text" />
+          <input onChange={(e) => setSearch(e.currentTarget.value)} value={search} placeholder="search for useless items here" className="card-search" type="text" />
         </div>
         
         <div className="card-container">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+
+          {cards.filter(card => (card.name.toLowerCase().includes(search.toLowerCase()))).map(card => (<Card key={card.id} card={card} onRefresh={refresh} />))}
         </div>
     </main>
     )

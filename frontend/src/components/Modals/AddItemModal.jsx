@@ -1,11 +1,43 @@
 import close from '../../assets/close.svg'
 import styles from './Modal.module.css'
+import { useAuth } from '../../providers/AuthProvider'
+import { useEffect, useState } from 'react'
 
-function AddItemModal({toggleModal}) {
+function AddItemModal({onRefresh, toggleModal}) {
 
-    function submit(e) {
+    const [auth] = useAuth()
+
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        (async function () {
+            const response = await fetch('http://localhost:4000/category')
+            const list = await response.json()
+            setCategories(list)
+        })()
+    }, [])
+
+    async function submit(e) {
         console.log('submit')
         e.preventDefault()
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get("name");
+        const price = formData.get("price");
+        const select = formData.get("select");
+        const quantity = formData.get("quantity");
+        const image = formData.get("image");
+        const description = formData.get("description");
+
+        const response = await fetch(`http://localhost:4000/product`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": 'application/json',
+                "Authorization": `Bearer ${auth.token}`
+            },
+            body: JSON.stringify({name, price, categoryId: select, quantity, description})
+        }) 
+        onRefresh()
+        toggleModal(false)
     }
 
     return (
@@ -20,21 +52,19 @@ function AddItemModal({toggleModal}) {
                 <div className={styles.content}>
                     <form className={styles.form} onSubmit={submit}>
                         <label>Item Name</label>
-                        <input className={styles.input} type="text" />
+                        <input name="name" className={styles.input} type="text" />
                         <label>Item Price</label>
-                        <input className={styles.input} type="number" />
+                        <input name="price" className={styles.input} step=".01" min="0" max="1000" type="number" />
                         <label>Item Category</label>
-                        <select className={styles.input} name="" id="">
-                            <option value="">Food</option>
-                            <option value="">Computer Components</option>
-                            <option value="">Car Parts</option>
+                        <select name="select" className={styles.input} id="">
+                            {categories.map(category => <option key={category.id} value={category.id}>{category.name}</option>)}
                         </select>
                         <label>Item Quantity</label>
-                        <input className={styles.input}  min={0} type="number" />
+                        <input name="quantity" className={styles.input}  min={0} type="number" />
                         <label>Item Image URL</label>
-                        <input className={styles.input} type="text" />
+                        <input name="image" className={styles.input} type="text" />
                         <label>Item Description</label>
-                        <textarea className={styles.input} name="" id="" cols="30" rows="3"></textarea>
+                        <textarea name="description" className={styles.input} id="" cols="30" rows="3"></textarea>
                         <button className={styles.submit}>Submit New Item</button>
                     </form>
                 </div>

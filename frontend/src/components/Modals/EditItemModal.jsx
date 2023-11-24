@@ -1,11 +1,45 @@
 import close from '../../assets/close.svg'
 import styles from './Modal.module.css'
+import { useAuth } from '../../providers/AuthProvider'
+import { useEffect, useState } from 'react'
 
-function EditItemModal({toggleModal}) {
+function EditItemModal({onRefresh, card, toggleModal}) {
 
-    function submit(e) {
+    const [auth] = useAuth()
+
+
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        (async function () {
+            const response = await fetch('http://localhost:4000/category')
+            const list = await response.json()
+            setCategories(list)
+        })()
+    }, [])
+
+    async function submit(e) {
         console.log('submit')
         e.preventDefault()
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get("name");
+        const price = formData.get("price");
+        const select = formData.get("select");
+        const quantity = formData.get("quantity");
+        const image = formData.get("image");
+        const description = formData.get("description");
+
+        const response = await fetch(`http://localhost:4000/product/${card.id}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": 'application/json',
+                "Authorization": `Bearer ${auth.token}`
+            },
+            body: JSON.stringify({name, price, categoryId: select, quantity, description})
+        }) 
+        onRefresh()
+        toggleModal(false)
+
     }
 
     return (
@@ -14,27 +48,25 @@ function EditItemModal({toggleModal}) {
         <div className={styles.centre}>
             <div className={styles.modal}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>Edit (name)</h1>
+                    <h1 className={styles.title}>Edit {card.name}</h1>
                     <img className={styles.close} onClick={() => toggleModal(false)}  src={close} alt="" />                
                 </div>
                 <div className={styles.content}>
                     <form className={styles.form} onSubmit={submit}>
                         <label>Item Name</label>
-                        <input defaultValue="item name" className={styles.input} type="text" />
+                        <input name="name" defaultValue={card.name} className={styles.input} type="text" />
                         <label>Item Price</label>
-                        <input defaultValue="1" className={styles.input} type="number" />
+                        <input name="price" defaultValue={card.price} step=".01" min="0" max="1000" className={styles.input} type="number" />
                         <label>Item Category</label>
-                        <select className={styles.input} name="" id="">
-                            <option value="">Food</option>
-                            <option value="">Computer Components</option>
-                            <option value="">Car Parts</option>
+                        <select name="select" className={styles.input} id="">
+                            {categories.map(category => <option selected={category.id == card.category.id} key={category.id} value={category.id}>{category.name}</option>)}
                         </select>
                         <label>Item Quantity</label>
-                        <input defaultValue="1" className={styles.input}  min={0} type="number" />
+                        <input name="quantity" defaultValue={card.quantity} className={styles.input}  min={0} type="number" />
                         <label>Item Image URL</label>
-                        <input defaultValue="https://www.generic-image.com/yes.png" className={styles.input} type="text" />
+                        <input name="image" defaultValue="https://www.generic-image.com/yes.png" className={styles.input} type="text" />
                         <label>Item Description</label>
-                        <textarea defaultValue="this is where the default escription goes" className={styles.input} name="" id="" cols="30" rows="3"></textarea>
+                        <textarea name="description" defaultValue={card.description} className={styles.input} id="" cols="30" rows="3"></textarea>
                         <button className={styles.submit}>Submit Edited Item</button>
                     </form>
                 </div>

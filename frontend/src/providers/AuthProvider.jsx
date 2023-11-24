@@ -28,20 +28,39 @@ function AuthProvider({children}) {
     }, [])
 
     async function login(emailAddress, password) {
-        const data = {
-            username: "joshpickardme",
-            fullName: "Josh Pickard",
-            emailAddress: "josh.pickard@gmail.com",
-            role: "admin",
-            token: "TOKEN"
-          };
-          localStorage.setItem("auth", JSON.stringify(data));
-          setAuth({ state: "logged-in", ...data });
-          return true
+        const response = await fetch('http://localhost:4000/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({emailAddress, password})
+        })
+
+        if(response.status != 200) {
+            return false
+        }
+
+        const data = await response.json()
+
+        localStorage.setItem("auth", JSON.stringify(data));
+        setAuth({ state: "logged-in", ...data });
+        return true
     }
 
     async function register(username, fullName, emailAddress, password) {
-        
+        const response = await fetch('http://localhost:4000/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username, fullName, emailAddress, password})
+        })
+
+        if(response.status != 204) {
+            return false
+        } else {
+            return true
+        }
     }
 
     async function logout() {

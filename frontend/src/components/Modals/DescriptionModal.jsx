@@ -1,7 +1,7 @@
 import close from '../../assets/close.svg'
 import styles from './Modal.module.css'
 
-function DescriptionModal({toggleModal}) {
+function DescriptionModal({card, toggleModal}) {
 
     return (
         <>
@@ -9,13 +9,13 @@ function DescriptionModal({toggleModal}) {
         <div className={styles.centre}>
             <div className={styles.modal}>
                 <div className={styles.header}>
-                    <h1 className={styles.title}>(name) Description</h1>
+                    <h1 className={styles.title}>{card.name} Description</h1>
                     <img className={styles.close} onClick={() => toggleModal(false)}  src={close} alt="" />                
                 </div>
                 <div className={styles.content}>
-                    <p className={styles.category}>Category: [category]</p>
+                    <p className={styles.category}>Category: {card.category.name}</p>
                     <p className={styles.text}>
-                        Hello, this is the description field where many describable activites can take place of describing the items that we purport to be selling.
+                        {card.description}
                     </p>
                 </div>
             </div>

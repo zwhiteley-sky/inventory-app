@@ -7,13 +7,13 @@ import CheckoutModal from '../Checkout/Checkout.jsx'
 import ModalButton from '../Buttons/ModalButton.jsx'
 import { useState } from 'react'
 
-function Header() {
+function Header({onRefresh}) {
     const [itemModal, setItemModal] = useState(false)
     const [checkoutModal, setCheckoutModal] = useState(false)
 
     return(
         <>
-        {itemModal && <AddItemModal toggleModal={setItemModal} />}
+        {itemModal && <AddItemModal onRefresh={onRefresh} toggleModal={setItemModal} />}
         {checkoutModal && <CheckoutModal toggleModal={setCheckoutModal}/>}
         <header className={styles.header}>
             <span className={styles.row}>
