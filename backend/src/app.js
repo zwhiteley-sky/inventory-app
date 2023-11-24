@@ -5,6 +5,7 @@ const { errorHandler } = require("./error");
 const { productRouter } = require("./routes/product");
 const { orderRouter } = require("./routes/order");
 const { userRouter } = require("./routes/user");
+const cors = require("cors");
 require("dotenv").config({
   path: `${__dirname}/../.env`,
 });
@@ -12,6 +13,7 @@ require("dotenv").config({
 function createApp(repos) {
   const app = express();
 
+  app.use(cors());
   app.use((req, _, next) => {
     req.repos = repos;
     next();
@@ -24,7 +26,6 @@ function createApp(repos) {
   app.use("/order", orderRouter);
   app.use("/user", userRouter);
   app.use(errorHandler);
-
 
   return app;
 }

@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
-
-button {
+.btn {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -17,6 +15,11 @@ button {
     border: 0px;
 }
 
-button:hover {
+.icon {
+    max-height: 20px;
+}
+
+.btn:hover {
     cursor: pointer;
+    outline: 2px solid rgb(49, 49, 49)
 }

@@ -13,7 +13,10 @@
     border: 5px solid #fff;
     background-color: #B8D4E8;
     transition: all 0.2s linear;
+    user-select: none;
 }
+
+
 
 .card:hover {
     transition: all 0.1s linear;
@@ -21,7 +24,11 @@
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.card-title {
+.header {
+    
+}
+
+.title {
     color: #FFF;
     transition: all 0.2s linear;
     text-align: center;
@@ -32,9 +39,10 @@
     line-height: normal;
     user-select: none;
     margin: 0;
+    user-select: none;
 }
 
-.card-price {
+.price {
     color: #FFF;
     user-select: none;
     font-family: 'Lexend', sans-serif;
@@ -44,33 +52,47 @@
     font-weight: 500;
     line-height: normal;
     margin: 0;
+    user-select: none;
 }
 
-.card-image {
+.img {
     min-height: 70px;
     min-width: 70px;
     max-height: 75px;
     max-width: 75px;
+    -webkit-user-drag: none;
+    user-select: none;
 }
 
-.card-footer {
+.footer {
     display: flex;
     flex-direction: row;
     min-width: 100%;
     max-height: fit-content;
     justify-content: space-between;
     align-items: center;
+    user-select: none;
 }
 
-.card-info {
+.icons {
+    display: flex;
+    gap: 10px;
+    user-select: none;
+}
+
+.icon {
     max-height: 20px;
+    -webkit-user-drag: none;
+    user-select: none;
 }
 
-.card-info:hover {
+.icon:hover {
     cursor: pointer;
 }
 
-.card-quantity {
+
+
+.quantity {
     color: #FFF;
     font-family: 'Lexend', sans-serif;
     font-size: 16px;
@@ -79,4 +101,50 @@
     user-select: none;
     line-height: normal;
     margin: 0;
+    user-select: none;
 }
+
+@media (max-width: 500px) {
+    .card {
+        display: flex;
+        flex-direction: column;
+        align-content: end;
+        justify-content: space-between;
+        align-items: center;
+        width: 250px;
+        padding: 8px;
+        height: 300px;
+        flex-shrink: 0;
+        border-radius: 5px;
+        border: 5px solid #fff;
+        background-color: #B8D4E8;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .price {
+        font-size: 18px;
+    }
+
+    .img {
+        min-height: 85px;
+        min-width: 85px;
+        max-height: 100px;
+        max-width: 100px;
+    }
+
+    .quantity {
+        font-size: 22px;
+    }
+
+    .icons {
+        display: flex;
+        gap: 20px;
+    }
+    
+    .icon {
+        min-height: 22px;
+    }
+  }
